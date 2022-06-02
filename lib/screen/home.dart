@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures, prefer_contains, non_constant_identifier_names, prefer_final_fields
 
-import 'dart:io';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import "loading.dart";
 import 'package:get/get.dart';
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   getpref() async {
     prefs = await SharedPreferences.getInstance();
     remember_list_of_task = prefs.getStringList("remenber") ?? [];
-    if (remember_list_of_task.length == 0) return;
+    if (remember_list_of_task.isEmpty) return;
     List<String> temp_remember_list_of_task = [...remember_list_of_task];
     print(temp_remember_list_of_task);
     for (int i = 0; i < temp_remember_list_of_task.length; i = i + 2) {
@@ -162,8 +162,8 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),*/
       body: DoubleBackToCloseApp(
-        snackBar: const SnackBar(
-          content: Text('Tap back again to leave'),
+        snackBar:  SnackBar(
+          content: Text(translation.write('Tap back again to leave', languege_symbol)!),
         ),
         child: SafeArea(
           child: Directionality(
@@ -290,7 +290,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               "fr";
                                                           Get.to(loading());
                                                         },
-                                                        child: Container(
+                                                        child: SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -325,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               "ar";
                                                           Get.to(loading());
                                                         },
-                                                        child: Container(
+                                                        child: SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -353,7 +353,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               "en";
                                                           Get.to(loading());
                                                         },
-                                                        child: Container(
+                                                        child: SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -381,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                               "ru";
                                                           Get.to(loading());
                                                         },
-                                                        child: Container(
+                                                        child: SizedBox(
                                                             width: MediaQuery.of(
                                                                         context)
                                                                     .size
@@ -419,7 +419,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                 "es";
                                                             Get.to(loading());
                                                           },
-                                                          child: Container(
+                                                          child: SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)
                                                                       .size
@@ -472,6 +472,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.only(top: 25, right: 10, left: 10),
                       itemCount: list_of_task.length,
                       itemBuilder: (_, __) {
+                        bool isopen = false;
                         return GestureDetector(
                           onLongPress: () {
                             if (selected.indexOf(list_of_task[__]["id"]) ==
@@ -607,6 +608,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     content: list_of_task[__]["content"]);
                                 get_tasks();
                               }
+                              return null;
                             },
                             key: Key(list_of_task[__]["object"]),
                             background: Container(
@@ -764,13 +766,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                             ? Colors.yellow[400]
                                             : Colors.grey,
                                       )),
-                                  trailing: Text(
-                                    list_of_task[__]["mydate"]
-                                        .toString()
-                                        .split(" ")[0],
-                                    style: TextStyle(
-                                        color: Colors.grey.withOpacity(0.7)),
-                                  ),
+                                  trailing: isopen
+                                      ? Icon(Icons.copy)
+                                      : Text(
+                                          list_of_task[__]["mydate"]
+                                              .toString()
+                                              .split(" ")[0],
+                                          style: TextStyle(
+                                              color:
+                                                  Colors.grey.withOpacity(0.7)),
+                                        ),
                                   expandedAlignment: Alignment.topLeft,
                                   children: [
                                     Padding(
@@ -779,12 +784,46 @@ class _MyHomePageState extends State<MyHomePage> {
                                         alignment: languege_symbol == "ar"
                                             ? Alignment.centerRight
                                             : Alignment.centerLeft,
-                                        child: Text(
-                                            list_of_task[__]["content"]
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: "Ubuntu")),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.75,
+                                              child: Text(
+                                                  list_of_task[__]["content"]
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: "Ubuntu")),
+                                            ),
+                                            Expanded(
+                                              //color: Colors.black,
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Clipboard.setData(
+                                                        ClipboardData(
+                                                            text: list_of_task[
+                                                                        __]
+                                                                    ["content"]
+                                                                .toString()));
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                      content: Text(
+                                                          translation.write("copy to clipboard", languege_symbol)!),
+                                                    ));
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.copy,
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                  )),
+                                              //  width: MediaQuery.of(context).size.width*0.1,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     )
                                   ],
@@ -801,14 +840,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Visibility(
                   visible: isLoaded,
-                  child: Container(
+                  child: SizedBox(
                     height: 75,
                     child: AdWidget(
                       ad: _ad,
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: 75,
                   width: MediaQuery.of(context).size.width,
                   child: Row(
@@ -821,30 +860,34 @@ class _MyHomePageState extends State<MyHomePage> {
                           get_tasks();
                           //setState(() {});
                         },
-                        child: Visibility(
-                          // visible: selected.length > 0 ? true : false,
-                          visible: true,
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: 10,
-                                bottom: 10,
-                                right: languege_symbol == "ar" ? 10 : 0),
-                            decoration: BoxDecoration(
-                                boxShadow: <BoxShadow>[
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(.1),
-                                    blurRadius: 30,
-                                    offset: Offset(0, 15),
-                                  ),
-                                ],
-                                color: Colors.blue.withOpacity(0.7),
-                                borderRadius: BorderRadius.circular(35)),
-                            width: 55,
-                            height: 55,
-                            child: Icon(
-                              Icons.note_sharp,
-                              color: Colors.white,
-                              size: 30,
+                        child: Tooltip(
+                          message: translation.write("reset", languege_symbol)!,
+                          child: Visibility(
+                            // visible: selected.length > 0 ? true : false,
+                            visible: true,
+                            child: Container(
+                              
+                              margin: EdgeInsets.only(
+                                  left: 10,
+                                  bottom: 10,
+                                  right: languege_symbol == "ar" ? 10 : 0),
+                              decoration: BoxDecoration(
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(.1),
+                                      blurRadius: 30,
+                                      offset: Offset(0, 15),
+                                    ),
+                                  ],
+                                  color: Colors.blue.withOpacity(0.7),
+                                  borderRadius: BorderRadius.circular(35)),
+                              width: 55,
+                              height: 55,
+                              child: Icon(
+                                Icons.note_sharp,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
                           ),
                         ),
@@ -943,7 +986,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           }
                         },
                         child: Visibility(
-                          visible: selected.length > 0 ? true : false,
+                          visible: selected.isNotEmpty ? true : false,
                           child: Container(
                             margin: EdgeInsets.only(right: 20, bottom: 10),
                             decoration: BoxDecoration(

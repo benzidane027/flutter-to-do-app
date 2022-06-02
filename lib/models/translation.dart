@@ -4,6 +4,9 @@ class translation {
   static String languege_symbol = "fr";
   static Map<String, Map<String, String>> words = {
     "en": {
+      "reset": "reset",
+      "copy to clipboard": "Copied",
+      'Tap back again to leave': 'Tap back again to leave',
       "  language:": "  language:",
       " has been deleted": " the note has been deleted",
       "Add a note": "Add a note",
@@ -27,7 +30,10 @@ class translation {
       " edit  ": " edit  ",
     },
     "ar": {
-      "  language:":"  اللغة:",
+      "reset": "اعادة تعيين",
+      "copy to clipboard": "تم النسخ",
+      'Tap back again to leave': 'اضغط مجددا للخروج',
+      "  language:": "  اللغة:",
       " has been deleted": " تم الحذف",
       "Add a note": "اضافة ملاحظة",
       'Search anything.....': "ابحث عن اي شيء..",
@@ -50,7 +56,10 @@ class translation {
       " edit  ": "  تعديل  ",
     },
     "fr": {
-      "  language:":"  langue:",
+      "reset": "réinitialiser",
+      "copy to clipboard": "copier",
+      'Tap back again to leave': 'Appuyez à nouveau pour quitter',
+      "  language:": "  langue:",
       " has been deleted": " la note a été supprimée",
       "Add a note": "ajouter une note",
       'Search anything.....': "Chercher n'importe quoi.....",
@@ -73,7 +82,10 @@ class translation {
       " edit  ": "  Éditer  ",
     },
     "ru": {
-      "  language:":"  язык:",
+      "reset": "перезагрузить",
+      "copy to clipboard": "копировать",
+      'Tap back again to leave': 'Коснитесь еще раз, чтобы выйти',
+      "  language:": "  язык:",
       " has been deleted": "заметка была удалена",
       "Add a note": "Добавить заметку",
       'Search anything.....': "Искать что-нибудь...",
@@ -96,7 +108,11 @@ class translation {
       " edit  ": " редактировать",
     },
     "es": {
-      "  language:":"  idioma:",
+      "reset": "Reiniciar",
+      "copy to clipboard": "Copiar",
+      'Tap back again to leave': 'Vuelve a tocar atrás para salir',
+
+      "  language:": "  idioma:",
       " has been deleted": " la nota ha sido eliminada",
       "Add a note": "Agrega una nota",
       "Search anything.....": "Busca cualquier cosa...",

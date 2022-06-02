@@ -8,7 +8,6 @@
 
 import 'package:app/screen/loading.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/state_manager.dart';
 import 'package:flutter/material.dart';
 
 void main() {

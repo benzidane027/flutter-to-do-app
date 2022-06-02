@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:convert';
 
 import 'package:app/screen/home.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class loading extends StatefulWidget {
-  loading({Key? key}) : super(key: key);
+  const loading({Key? key}) : super(key: key);
   @override
   State<loading> createState() => _loadingState();
 }

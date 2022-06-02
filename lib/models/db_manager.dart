@@ -30,7 +30,7 @@ class db_helpeer {
   Future<List> get_tasks() async {
     Database db = await _createDatebase();
 
-    return db.rawQuery("select * from user_task");
+    return db.rawQuery("select * from user_task order by mydate desc");
   }
 
   Future<List> get_task({id}) async {
